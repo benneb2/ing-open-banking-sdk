@@ -1,0 +1,34 @@
+name: Trigger ING Openbanking swagger updater
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+
+jobs:
+  spec_sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source branch for building Pages
+        uses: actions/checkout@v2
+        with:
+          ref: src-pages
+          fetch-depth: 10
+
+      - name: Make build destination directory
+        run: ./scripts/getAllLatestSwaggerVersion.sh
+
+      - name: Add changes to Git tracking
+        run: git add -A api/
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m 'chore: Update swagger docs'
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: master
