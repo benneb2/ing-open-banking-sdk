@@ -2,19 +2,13 @@ name: Trigger ING Openbanking swagger updater
 
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '40 * * * *'
 
 jobs:
   spec_sync:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source branch for building Pages
-        uses: actions/checkout@v2
-        with:
-          ref: src-pages
-          fetch-depth: 10
-
       - name: Make build destination directory
         run: ./scripts/getAllLatestSwaggerVersion.sh
 
