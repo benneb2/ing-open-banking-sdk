@@ -16,17 +16,8 @@ jobs:
       - name: Make build destination directory
         run: ./scripts/getAllLatestSwaggerVersion.sh
 
-      - name: Add changes to Git tracking
-        run: git add -A api/
-
       - name: Commit changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git commit -m 'chore: Update swagger docs'
-
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: master
+          git diff-index --quiet HEAD || (git commit -m 'chore: Update swagger docs' && git push)

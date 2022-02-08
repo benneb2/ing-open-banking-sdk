@@ -31,6 +31,7 @@ for row in $(echo "${cleaned_versions}" | jq -r '.apis[] | @base64'); do
         if [ ! -f "$file_name" ]; then
              echo "$file_name does not exist. Downloading...."
              curl "https://api.developer.ing.com/apis/$1/versions/${versionId}/specification/download?format=json&pretty=true&resolved=false" -o "$file_name"
+	     git add "$file_name"
         else
              echo "$file_name exist."
         fi
