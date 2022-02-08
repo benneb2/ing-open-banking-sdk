@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  jekyll_build:
+  spec_sync:
     runs-on: ubuntu-latest
 
     steps:
@@ -45,7 +45,7 @@ jobs:
 
       - name: Initialize Pull Request
         if: env.GIT_PUSH == 'true'
-        uses: gha-utilities/init-pull-request@v0.2.0
+        uses: gha-utilities/init-pull-request@v0.0.8
         with:
           pull_request_token: ${{ secrets.GITHUB_TOKEN }}
           head: env.GIT_BRANCH
