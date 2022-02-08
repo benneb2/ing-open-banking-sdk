@@ -25,5 +25,6 @@ jobs:
           echo ${{ env.GIT_PUSH }}
 
       - name: Test
+        if: env.GIT_PUSH == 'true'
         run: echo ${{ env.GIT_PUSH }}
 
