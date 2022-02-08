@@ -52,3 +52,6 @@ jobs:
           head: env.GIT_BRANCH
           base: master
           title: 'automation: Updates swagger spec files'
+          body: >
+            Perhaps a multi-line description
+            about latest features and such.
