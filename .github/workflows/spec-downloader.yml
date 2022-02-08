@@ -16,15 +16,39 @@ jobs:
       - name: Make build destination directory
         run: ./scripts/getAllLatestSwaggerVersion.sh
 
+      - name: Changed
+        run: |
+          git diff-index --quiet HEAD || (echo "GIT_PUSH=$(echo true)" >> $GITHUB_ENV)
+
       - name: Commit changes
+        if: env.GIT_PUSH == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git diff-index --quiet HEAD || (echo "GIT_PUSH=$(echo true)" >> $GITHUB_ENV)
-          git diff-index --quiet HEAD || (git commit -m 'chore: Update swagger docs' && git push)
-          echo ${{ env.GIT_PUSH }}
+	  branchName=$(date +auto-spec-%Y%m%d%H%M%S)
+          echo "GIT_BRANCH=$(echo $branchName)" >> $GITHUB_ENV
+          git checkout -b $(branchName)
+          git commit -m 'chore: Update swagger docs'
 
       - name: Test
         if: env.GIT_PUSH == 'true'
-        run: echo ${{ env.GIT_PUSH }}
+        run: |
+          echo ${{ env.GIT_PUSH }}
+          echo ${{ env.GIT_BRANCH }}
+         
+      - name: Push changes
+        if: env.GIT_PUSH == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: env.GIT_BRANCH
 
+      - name: Initialize Pull Request
+        if: env.GIT_PUSH == 'true'
+        uses: gha-utilities/init-pull-request@v0.3.2
+        with:
+          verbose: true
+          pull_request_token: ${{ secrets.GITHUB_TOKEN }}
+          head: env.GIT_BRANCH
+          base: master
+          title: 'automation: Updates swagger spec files'
