@@ -51,4 +51,3 @@ jobs:
           head: env.GIT_BRANCH
           base: master
           title: 'automation: Updates swagger spec files'
-          verbose: true
