@@ -48,6 +48,6 @@ jobs:
         uses: gha-utilities/init-pull-request@v0.0.8
         with:
           pull_request_token: ${{ secrets.GITHUB_TOKEN }}
-          head: env.GIT_BRANCH
+          head: ${{ env.GIT_BRANCH }}
           base: master
           title: 'automation: Updates swagger spec files'
