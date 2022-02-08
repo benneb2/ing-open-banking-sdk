@@ -3,7 +3,7 @@ name: Trigger ING Openbanking swagger updater
 on:
   schedule:
     - cron: '*/5 * * * *'
-
+  workflow_dispatch:
 jobs:
   spec_sync:
     runs-on: ubuntu-latest
