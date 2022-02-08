@@ -2,7 +2,7 @@ name: Trigger ING Openbanking swagger updater
 
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '*/5 * * * *'
 
 jobs:
   spec_sync:
@@ -20,4 +20,10 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          git diff-index --quiet HEAD || (echo "GIT_PUSH=$(echo true)" >> $GITHUB_ENV)
           git diff-index --quiet HEAD || (git commit -m 'chore: Update swagger docs' && git push)
+          echo ${{ env.GIT_PUSH }}
+
+      - name: Test
+        run: echo ${{ env.GIT_PUSH }}
+
