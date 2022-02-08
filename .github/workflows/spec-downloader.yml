@@ -45,13 +45,12 @@ jobs:
 
       - name: Initialize Pull Request
         if: env.GIT_PUSH == 'true'
+        # You may pin to the exact commit or the version.
+        # uses: gha-utilities/init-pull-request@5d95f07a7eaa2a304475857fc24543761b79b7b8
         uses: gha-utilities/init-pull-request@v0.3.2
         with:
-          verbose: true
           pull_request_token: ${{ secrets.GITHUB_TOKEN }}
           head: env.GIT_BRANCH
           base: master
           title: 'automation: Updates swagger spec files'
-          body: >
-            Perhaps a multi-line description
-            about latest features and such.
+          verbose: true
