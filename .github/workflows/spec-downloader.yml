@@ -19,22 +19,22 @@ jobs:
       - name: Changed
         run: |
           git diff-index --quiet HEAD || (echo "GIT_PUSH=$(echo true)" >> $GITHUB_ENV)
-
-      - name: Commit changes
-        if: env.GIT_PUSH == 'true'
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          echo "GIT_BRANCH=$(echo $(date +auto-spec-%Y%m%d%H%M%S))" >> $GITHUB_ENV
-          git checkout -b ${{ env.GIT_BRANCH }}
-          git commit -m 'chore: Update swagger docs'
+          echo "GIT_BRANCH=$(date +auto-spec-%Y%m%d%H%M%S)" >> $GITHUB_ENV
 
       - name: Test
         if: env.GIT_PUSH == 'true'
         run: |
           echo ${{ env.GIT_PUSH }}
           echo ${{ env.GIT_BRANCH }}
-         
+
+      - name: Commit changes
+        if: env.GIT_PUSH == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git checkout -b ${{ env.GIT_BRANCH }}
+          git commit -m 'chore: Update swagger docs'
+
       - name: Push changes
         if: env.GIT_PUSH == 'true'
         uses: ad-m/github-push-action@master
