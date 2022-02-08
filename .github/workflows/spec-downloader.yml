@@ -4,8 +4,9 @@ on:
   schedule:
     - cron: '0 0 * * *'
   workflow_dispatch:
+
 jobs:
-  spec_sync:
+  jekyll_build:
     runs-on: ubuntu-latest
 
     steps:
