@@ -25,7 +25,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-	  branchName=$(date +auto-spec-%Y%m%d%H%M%S)
+          branchName=$(date +auto-spec-%Y%m%d%H%M%S)
           echo "GIT_BRANCH=$(echo $branchName)" >> $GITHUB_ENV
           git checkout -b $(branchName)
           git commit -m 'chore: Update swagger docs'
